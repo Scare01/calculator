@@ -1,5 +1,41 @@
 body {
-  margin: 0;
-  padding: 0;
-  font-family: sans-serif;
+    width: 100%;
+    display: flex;
+    align-itmes: center;
+    justify-content: center;
+}
+
+#calc {
+    border: 2px solid black;
+    width: 400px;
+    height: 500px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#display {
+    width: 90%;
+    border: 2px solid black;
+    height: 8%;
+    margin-top: 5px;
+    text-align: right;
+    font-size: 2em;
+}
+
+#buttons {
+    border: 2px solid black;
+    margin: auto;
+    width: 90%;
+    height: 85%;
+    display: flex;
+    align-items: space-around;
+}
+
+.button {
+    width: 30%;
+    height: 30%;
+    border: 2px solid black;
+    display: flex;
+    align-items: center;
 }
