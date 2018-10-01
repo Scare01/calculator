@@ -47,8 +47,12 @@ body {
     justify-content: center;
     border-radius: 10px;
     background-color: beige;
-    box-shadow: 0 0 3px black;
     font-size: 1.5em;
+    box-shadow: 0 0 3px black;
+}
+
+.button:hover {
+    box-shadow: none;
 }
 
 .button:nth-child(1) {
@@ -90,4 +94,10 @@ body {
 .button:nth-child(17) {
     margin-top: -27%;
     margin-right: 25.5%;
+}
+
+#copyright {
+    color: beige;
+    margin-bottom: 5px;
+    text-shadow: 1px 2px black;
 }
