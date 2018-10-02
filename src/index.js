@@ -10,19 +10,38 @@ class App extends React.Component {
             currentVal: '0',
             prevVal: '0',
             formule: '',
-            lastClicked: ''
+            lastClicked: '',
+            display: '0'
         }
         this.initialize = this.initialize.bind(this);
+        this.numbers = this.numbers.bind(this);
     }
 
     initialize() {
-        this.setState({currentVal: '0', prevVal: '0', formule: '', lastClicked: ''});
+        this.setState({currentVal: '0', prevVal: '0', formule: '', lastClicked: '', display: '0'});
+    }
+
+    numbers(e) {
+
+        if (this.state.display.length >= 15) {
+            setTimeout(() => this.setState({display: "to long number"}), 100)
+
+        } else {
+            if (this.state.display == '0') {
+                this.setState({display: e.target.value});
+            } else {
+                this.setState({
+                    display: this.state.display.concat(e.target.value)
+                })
+            }
+        }
+
     }
 
     render() {
         return (<div id="calc">
             <div id="display">{this.state.display}</div>
-            <Buttons initialize={this.initialize}/>
+            <Buttons initialize={this.initialize} numbers={this.numbers}/>
             <div id="copyright">RubyLupus</div>
         </div>);
     }
