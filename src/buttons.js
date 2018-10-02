@@ -8,7 +8,7 @@ export default class Buttons extends React.Component {
     render() {
         return (<div id="buttons">
             <button className="button" id="clear" onClick={this.props.initialize}>C</button>
-            <button className="button" id="buttonide">/</button>
+            <button className="button" id="divide">/</button>
             <button className="button" id="multiply">*</button>
             <button className="button" id="seven">7</button>
             <button className="button" id="eight">8</button>
