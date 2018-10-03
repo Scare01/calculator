@@ -38,7 +38,7 @@ class App extends React.Component {
     }
 
     math(e) {
-        this.setState({console.log("hello")})
+        console.log("hello");
     }
 
     render() {
