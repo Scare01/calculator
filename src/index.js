@@ -7,14 +7,13 @@ class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            currentVal: '0',
-            prevVal: '0',
-            formule: '',
-            lastClicked: '',
+            firstNum: '0',
+            secondNum: '0',
             display: '0'
         }
         this.initialize = this.initialize.bind(this);
         this.numbers = this.numbers.bind(this);
+        this.math = this.math.bind(this);
     }
 
     initialize() {
@@ -38,10 +37,14 @@ class App extends React.Component {
 
     }
 
+    math(e) {
+        this.setState({})
+    }
+
     render() {
         return (<div id="calc">
             <div id="display">{this.state.display}</div>
-            <Buttons initialize={this.initialize} numbers={this.numbers}/>
+            <Buttons initialize={this.initialize} numbers={this.numbers} math={this.math}/>
             <div id="copyright">RubyLupus</div>
         </div>);
     }
