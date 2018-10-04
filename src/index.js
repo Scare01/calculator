@@ -41,34 +41,46 @@ class App extends React.Component {
             this.setState({display: this.state.display.concat('.')})
         }
         if (e.target.value == '+' | e.target.value == '-' | e.target.value == '*' | e.target.value == '/') {
+            if (this.state.firstNum != '0' && !(operators.includes(this.state.display))) {
+                console.log("secondNum before math = " + this.state.secondNum);
+
+                this.mathOperate();
+                console.log("secondNum after math = " + this.state.secondNum);
+
+                this.setState({firstNum: this.state.display});
+            }
             if (!(operators.includes(this.state.display))) {
                 this.setState({firstNum: this.state.display});
             }
-            this.setState({display: e.target.value, operator: e.target.value});
-        } else if (e.target.value == '=') {
-            console.log('before math first = ' + this.state.firstNum);
-            console.log('before math second = ' + this.state.display);
-            this.mathOperate();
 
+            this.setState({display: e.target.value, operator: e.target.value});
+
+        } else if (e.target.value == '=') {
+            this.mathOperate();
+            console.log('secondNum after press = is ' + this.state.secondNum);
         }
     }
 
     mathOperate() {
         if (this.state.operator == "+") {
             this.setState({
-                display: (parseFloat(this.state.firstNum, 10) + parseFloat(this.state.display, 10)).toString()
+                display: (parseFloat(this.state.firstNum, 10) + parseFloat(this.state.display, 10)).toString(),
+                secondNum: (parseFloat(this.state.firstNum, 10) + parseFloat(this.state.display, 10)).toString()
             });
         } else if (this.state.operator == '-') {
             this.setState({
-                display: (parseFloat(this.state.firstNum, 10) - parseFloat(this.state.display, 10).toString())
+                display: (parseFloat(this.state.firstNum, 10) - parseFloat(this.state.display, 10).toString()),
+                secondNum: (parseFloat(this.state.firstNum, 10) - parseFloat(this.state.display, 10).toString())
             });
         } else if (this.state.operator == '*') {
             this.setState({
-                display: (parseFloat(this.state.firstNum, 10) * parseFloat(this.state.display, 10).toString())
+                display: (parseFloat(this.state.firstNum, 10) * parseFloat(this.state.display, 10).toString()),
+                secondNum: (parseFloat(this.state.firstNum, 10) * parseFloat(this.state.display, 10).toString())
             });
         } else if (this.state.operator == '/') {
             this.setState({
-                display: (parseFloat(this.state.firstNum, 10) / parseFloat(this.state.display, 10).toString())
+                display: (parseFloat(this.state.firstNum, 10) / parseFloat(this.state.display, 10).toString()),
+                secondNum: (parseFloat(this.state.firstNum, 10) / parseFloat(this.state.display, 10).toString())
             });
         }
     }
