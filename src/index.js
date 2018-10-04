@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import Buttons from './buttons.js'
+let operators = ['+', '-', '*', '/'];
 
 class App extends React.Component {
     constructor(props) {
@@ -9,7 +10,9 @@ class App extends React.Component {
         this.state = {
             display: '0',
             firstNum: '0',
+            secondNum: '0',
             operator: ''
+
         }
         this.initialize = this.initialize.bind(this);
         this.numbers = this.numbers.bind(this);
@@ -17,9 +20,8 @@ class App extends React.Component {
     }
 
     initialize() {
-        this.setState({display: '0', firstNum: '0', operator: ''});
+        this.setState({display: '0', firstNum: '0', secondNum: '0', operator: ''});
     }
-
     numbers(e) {
         if (this.state.display.length > 15) {
             this.setState({display: "to long number"});
@@ -35,29 +37,39 @@ class App extends React.Component {
     }
 
     math(e) {
-        if (e.target.value == '+' | e.target.value == '-' | e.target.value == '*' | e.target.value == '/') {
-            this.setState({firstNum: this.state.display, display: e.target.value, operator: e.target.value})
-        } else if (e.target.value == '.' && !(this.state.display.includes('.'))) {
+        if (e.target.value == '.' && !(this.state.display.includes('.'))) {
             this.setState({display: this.state.display.concat('.')})
-        } else if (e.target.value == '=') {
-            if (this.state.operator == "+") {
-                this.setState({
-                    display: (parseFloat(this.state.firstNum, 10) + parseFloat(this.state.display, 10)).toString()
-                });
-            } else if (this.state.operator == '-') {
-                this.setState({
-                    display: (parseFloat(this.state.firstNum, 10) - parseFloat(this.state.display, 10).toString())
-                });
-            } else if (this.state.operator == '*') {
-                this.setState({
-                    display: (parseFloat(this.state.firstNum, 10) * parseFloat(this.state.display, 10).toString())
-                });
-            } else if (this.state.operator == '/') {
-                this.setState({
-                    display: (parseFloat(this.state.firstNum, 10) / parseFloat(this.state.display, 10).toString())
-                });
+        }
+        if (e.target.value == '+' | e.target.value == '-' | e.target.value == '*' | e.target.value == '/') {
+            if (!(operators.includes(this.state.display))) {
+                this.setState({firstNum: this.state.display});
             }
+            this.setState({display: e.target.value, operator: e.target.value});
+        } else if (e.target.value == '=') {
+            console.log('before math first = ' + this.state.firstNum);
+            console.log('before math second = ' + this.state.display);
+            this.mathOperate();
 
+        }
+    }
+
+    mathOperate() {
+        if (this.state.operator == "+") {
+            this.setState({
+                display: (parseFloat(this.state.firstNum, 10) + parseFloat(this.state.display, 10)).toString()
+            });
+        } else if (this.state.operator == '-') {
+            this.setState({
+                display: (parseFloat(this.state.firstNum, 10) - parseFloat(this.state.display, 10).toString())
+            });
+        } else if (this.state.operator == '*') {
+            this.setState({
+                display: (parseFloat(this.state.firstNum, 10) * parseFloat(this.state.display, 10).toString())
+            });
+        } else if (this.state.operator == '/') {
+            this.setState({
+                display: (parseFloat(this.state.firstNum, 10) / parseFloat(this.state.display, 10).toString())
+            });
         }
     }
 

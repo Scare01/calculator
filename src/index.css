@@ -18,8 +18,8 @@ body {
 
 #display {
     width: 90%;
-    border: 2px solid black;
     border-radius: 10px;
+    border: 2px solid black;
     height: 8%;
     margin-top: 15px;
     text-align: right;
