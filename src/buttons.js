@@ -21,7 +21,7 @@ export default class Buttons extends React.Component {
             <button className="button" id="one" onClick={this.props.numbers} value='1'>1</button>
             <button className="button" id="two" onClick={this.props.numbers} value='2'>2</button>
             <button className="button" id="three" onClick={this.props.numbers} value='3'>3</button>
-            <button className="button" id="equal" onClick={this.props.math} value='='>=</button>
+            <button className="button" id="equals" onClick={this.props.math} value='='>=</button>
             <button className="button" id="zero" onClick={this.props.numbers} value='0'>0</button>
             <button className="button" id="decimal" onClick={this.props.math} value='.'>.</button>
         </div>)
