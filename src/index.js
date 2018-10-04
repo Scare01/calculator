@@ -7,9 +7,9 @@ class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            display: '0',
             firstNum: '0',
-            secondNum: '0',
-            display: '0'
+            operator: ''
         }
         this.initialize = this.initialize.bind(this);
         this.numbers = this.numbers.bind(this);
@@ -17,33 +17,58 @@ class App extends React.Component {
     }
 
     initialize() {
-        this.setState({currentVal: '0', prevVal: '0', formule: '', lastClicked: '', display: '0'});
+        this.setState({display: '0', firstNum: '0', operator: ''});
     }
 
     numbers(e) {
 
-        if (this.state.display.length >= 15) {
-            setTimeout(() => this.setState({display: "to long number"}), 100)
-
+        if (this.state.display.length > 15) {
+            this.setState({display: "to long number"});
         } else {
-            if (this.state.display == '0') {
+
+            if (this.state.display == '0' | this.state.display == '+' | this.state.display == '-' | this.state.display == '*' | this.state.display == '/') {
                 this.setState({display: e.target.value});
+
             } else {
+
                 this.setState({
                     display: this.state.display.concat(e.target.value)
-                })
+                });
             }
+
         }
 
     }
 
     math(e) {
-        console.log("hello");
+
+        if (e.target.value == '+' | e.target.value == '-' | e.target.value == '*' | e.target.value == '/') {
+            this.setState({firstNum: this.state.display, display: e.target.value, operator: e.target.value})
+
+        } else if (e.target.value == '=') {
+            if (this.state.operator == "+") {
+                this.setState({
+                    display: (parseInt(this.state.firstNum, 10) + parseInt(this.state.display, 10)).toString()
+                });
+            } else if (this.state.operator == '-') {
+                this.setState({
+                    display: (parseInt(this.state.firstNum, 10) - parseInt(this.state.display, 10).toString())
+                });
+            } else if (this.state.operator == '*') {
+                this.setState({
+                    display: (parseInt(this.state.firstNum, 10) * parseInt(this.state.display, 10).toString())
+                });
+            } else if (this.state.operator == '/') {
+                this.setState({
+                    display: (parseInt(this.state.firstNum, 10) / parseInt(this.state.display, 10).toString())
+                });
+            }
+        }
     }
 
     render() {
         return (<div id="calc">
-            <div id="display">{this.state.display}</div>
+            <div id="display">{this.state.display}</div >
             <Buttons initialize={this.initialize} numbers={this.numbers} math={this.math}/>
             <div id="copyright">RubyLupus</div>
         </div>);
