@@ -37,7 +37,7 @@ class App extends React.Component {
         this.setState({
             display: (this.state.display.length >= 15)
                 ? 'Number too long'
-                : (this.state.display === '0')
+                : (this.state.display === '0' | this.state.operator === '+')
                     ? e.target.value
                     : this.state.display.concat(e.target.value)
         })
@@ -51,13 +51,22 @@ class App extends React.Component {
             firstNum: (this.state.firstNum === '0')
                 ? this.state.display
                 : this.state.answer,
-            operator: e.target.value
+            operator: e.target.value,
+            display: (this.state.answer === '0')
+                ? this.state.display
+                : this.state.answer
         });
         this.mathOperate();
     }
 
     mathOperate() {
-        console.log('bla')
+        if (this.state.operator === '+') {
+            this.setState({
+                //display: (parseFloat(this.state.firstNum, 10) + parseFloat(this.state.secondNum, 10)).toString(),
+                answer: (parseFloat(this.state.firstNum, 10) + parseFloat(this.state.secondNum, 10)).toString()
+            })
+        }
+
     }
 
     // formula  =  (parseFloat(this.state.firstNum, 10) + parseFloat(this.state.display, 10)).toString(),
