@@ -23,7 +23,7 @@ export default class Buttons extends React.Component {
             <button className="button" id="three" onClick={this.props.numbers} value='3'>3</button>
             <button className="button" id="equals" onClick={this.props.math} value='='>=</button>
             <button className="button" id="zero" onClick={this.props.numbers} value='0'>0</button>
-            <button className="button" id="decimal" onClick={this.props.math} value='.'>.</button>
+            <button className="button" id="decimal" onClick={this.props.numbers} value='.'>.</button>
         </div>)
     }
 }
