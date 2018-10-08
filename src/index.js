@@ -11,70 +11,84 @@ class App extends React.Component {
             display: '0',
             firstNum: '0',
             secondNum: '0',
-            operator: '',
-            answer: '0'
+            operator: ''
 
         }
         this.initialize = this.initialize.bind(this);
         this.numbers = this.numbers.bind(this);
         this.math = this.math.bind(this);
-        this.decimal = this.decimal.bind(this);
     }
 
     initialize() {
-        this.setState({display: '0', firstNum: '0', secondNum: '0', operator: '', answer: '0'});
+        this.setState({display: '0', firstNum: '0', secondNum: '0', operator: ''});
     }
-
-    decimal() {
-        this.setState({
-            display: !(this.state.display.includes('.'))
-                ? this.state.display.concat('.')
-                : this.state.display
-        })
-    }
-
     numbers(e) {
-        this.setState({
-            display: (this.state.display.length >= 15)
-                ? 'Number too long'
-                : (this.state.display === '0' | this.state.operator === '+')
-                    ? e.target.value
-                    : this.state.display.concat(e.target.value)
-        })
+        if (this.state.display.length > 15) {
+            this.setState({display: "to long number"});
+        } else {
+            if (this.state.display == '0' | this.state.display == '+' | this.state.display == '-' | this.state.display == '*' | this.state.display == '/') {
+                this.setState({display: e.target.value});
+            } else {
+                this.setState({
+                    display: this.state.display.concat(e.target.value)
+                });
+            }
+        }
     }
 
     math(e) {
-        this.setState({
-            secondNum: (this.state.firstNum === '0')
-                ? '0'
-                : this.state.firstNum,
-            firstNum: (this.state.firstNum === '0')
-                ? this.state.display
-                : this.state.answer,
-            operator: e.target.value,
-            display: (this.state.answer === '0')
-                ? this.state.display
-                : this.state.answer
-        });
-        this.mathOperate();
+        if (e.target.value == '.' && !(this.state.display.includes('.'))) {
+            this.setState({display: this.state.display.concat('.')})
+        }
+        if (e.target.value == '+' | e.target.value == '-' | e.target.value == '*' | e.target.value == '/') {
+            if (this.state.firstNum != '0' && !(operators.includes(this.state.display))) {
+                console.log("secondNum before math = " + this.state.secondNum);
+
+                this.mathOperate();
+                console.log("secondNum after math = " + this.state.secondNum);
+
+                this.setState({firstNum: this.state.display});
+            }
+            if (!(operators.includes(this.state.display))) {
+                this.setState({firstNum: this.state.display});
+            }
+
+            this.setState({display: e.target.value, operator: e.target.value});
+
+        } else if (e.target.value == '=') {
+            this.mathOperate();
+            console.log('secondNum after press = is ' + this.state.secondNum);
+        }
     }
 
     mathOperate() {
-        if (this.state.operator === '+') {
+        if (this.state.operator == "+") {
             this.setState({
-                //display: (parseFloat(this.state.firstNum, 10) + parseFloat(this.state.secondNum, 10)).toString(),
-                answer: (parseFloat(this.state.firstNum, 10) + parseFloat(this.state.secondNum, 10)).toString()
-            })
+                display: (parseFloat(this.state.firstNum, 10) + parseFloat(this.state.display, 10)).toString(),
+                secondNum: (parseFloat(this.state.firstNum, 10) + parseFloat(this.state.display, 10)).toString()
+            });
+        } else if (this.state.operator == '-') {
+            this.setState({
+                display: (parseFloat(this.state.firstNum, 10) - parseFloat(this.state.display, 10).toString()),
+                secondNum: (parseFloat(this.state.firstNum, 10) - parseFloat(this.state.display, 10).toString())
+            });
+        } else if (this.state.operator == '*') {
+            this.setState({
+                display: (parseFloat(this.state.firstNum, 10) * parseFloat(this.state.display, 10).toString()),
+                secondNum: (parseFloat(this.state.firstNum, 10) * parseFloat(this.state.display, 10).toString())
+            });
+        } else if (this.state.operator == '/') {
+            this.setState({
+                display: (parseFloat(this.state.firstNum, 10) / parseFloat(this.state.display, 10).toString()),
+                secondNum: (parseFloat(this.state.firstNum, 10) / parseFloat(this.state.display, 10).toString())
+            });
         }
-
     }
-
-    // formula  =  (parseFloat(this.state.firstNum, 10) + parseFloat(this.state.display, 10)).toString(),
 
     render() {
         return (<div id="calc">
             <div id="display">{this.state.display}</div >
-            <Buttons initialize={this.initialize} numbers={this.numbers} math={this.math} decimal={this.decimal}/>
+            <Buttons initialize={this.initialize} numbers={this.numbers} math={this.math}/>
             <div id="copyright">RubyLupus</div>
         </div>);
     }
