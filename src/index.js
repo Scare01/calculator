@@ -10,10 +10,7 @@ class App extends React.Component {
         this.state = {
             display: '0',
             firstNum: '0',
-            secondNum: '0',
-            operator: '',
-            answer: '0'
-
+            operatro: ''
         }
         this.initialize = this.initialize.bind(this);
         this.numbers = this.numbers.bind(this);
@@ -22,7 +19,7 @@ class App extends React.Component {
     }
 
     initialize() {
-        this.setState({display: '0', firstNum: '0', secondNum: '0', operator: '', answer: '0'});
+        this.setState({display: '0', firstNum: '0', operator: ''});
     }
 
     decimal() {
@@ -37,33 +34,26 @@ class App extends React.Component {
         this.setState({
             display: (this.state.display.length >= 15)
                 ? 'Number too long'
-                : (this.state.display === '0' | this.state.operator === '+')
+
+                : (this.state.display === '0' | this.state.operator === '+' | this.state.operator === '-' | this.state.operator === '*' | this.state.operator === '/')
                     ? e.target.value
                     : this.state.display.concat(e.target.value)
         })
     }
 
     math(e) {
-        this.setState({
-            secondNum: (this.state.firstNum === '0')
-                ? '0'
-                : this.state.firstNum,
-            firstNum: (this.state.firstNum === '0')
-                ? this.state.display
-                : this.state.answer,
-            operator: e.target.value
-        });
-        this.mathOperate();
-    }
+        let operators = ['+', '-', '*', '/'];
 
-    mathOperate() {
-        if (this.state.operator === '+') {
-            this.setState({
-                display: (parseFloat(this.state.firstNum, 10) + parseFloat(this.state.secondNum, 10)).toString(),
-                //answer: (parseFloat(this.state.firstNum, 10) + parseFloat(this.state.secondNum, 10)).toString()
-            })
+        if (this.state.firstNum === '0') {
+            this.setState({firstNum: this.state.display, operator: e.target.value})
+        } else {
+            let answer;
+            if (this.state.operator === '+') {
+                answer = (parseFloat(this.state.firstNum, 10) + parseFloat(this.state.display, 10)).toString();
+            }
+            this.setState({display: answer, operator: e.target.value, firstNum: answer});
+
         }
-
     }
 
     // formula  =  (parseFloat(this.state.firstNum, 10) + parseFloat(this.state.display, 10)).toString(),
