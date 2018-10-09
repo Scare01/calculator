@@ -83,7 +83,7 @@ class App extends React.Component {
         return (<div id="calc">
             <div id="display">{this.state.display}</div >
             <Buttons initialize={this.initialize} numbers={this.numbers} math={this.math} decimal={this.decimal}/>
-            <div id="copyright">RubyLupus</div>
+            <div id="copyright">by RubyLupus</div>
         </div>);
     }
 }
