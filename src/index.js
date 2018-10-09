@@ -10,7 +10,8 @@ class App extends React.Component {
         this.state = {
             display: '0',
             firstNum: '0',
-            operatro: ''
+            operatro: '',
+            number: '0'
         }
         this.initialize = this.initialize.bind(this);
         this.numbers = this.numbers.bind(this);
@@ -19,44 +20,49 @@ class App extends React.Component {
     }
 
     initialize() {
-        this.setState({display: '0', firstNum: '0', operator: ''});
+        this.setState({display: '0', firstNum: '0', operator: '', number: '0'});
     }
 
     decimal() {
-        this.setState({
-            display: !(this.state.display.includes('.'))
-                ? this.state.display.concat('.')
-                : this.state.display
-        })
+        if (!(this.state.display.includes('.'))) {
+            this.setState({display: this.state.display.concat('.'), number: this.state.number.concat('.')})
+        } else {
+            this.setState({display: this.state.display, number: this.state.number})
+        }
     }
 
     numbers(e) {
-        this.setState({
-            display: (this.state.display.length >= 15)
-                ? 'Number too long'
-
-                : (this.state.display === '0' | this.state.operator === '+' | this.state.operator === '-' | this.state.operator === '*' | this.state.operator === '/')
-                    ? e.target.value
-                    : this.state.display.concat(e.target.value)
-        })
+        if (this.state.display.length > 15) {
+            this.setState({display: "to long number"});
+        } else {
+            if (this.state.number == '0') {
+                this.setState({display: e.target.value, number: e.target.value});
+            } else {
+                this.setState({
+                    display: this.state.display.concat(e.target.value),
+                    number: this.state.number.concat(e.target.value)
+                });
+            }
+        }
     }
 
     math(e) {
-        let operators = ['+', '-', '*', '/'];
-
         if (this.state.firstNum === '0') {
             this.setState({firstNum: this.state.display, operator: e.target.value})
         } else {
             let answer;
             if (this.state.operator === '+') {
                 answer = (parseFloat(this.state.firstNum, 10) + parseFloat(this.state.display, 10)).toString();
+            } else if (this.state.operator === '-') {
+                answer = (parseFloat(this.state.firstNum, 10) - parseFloat(this.state.display, 10)).toString();
+            } else if (this.state.operator === '*') {
+                answer = (parseFloat(this.state.firstNum, 10) * parseFloat(this.state.display, 10)).toString();
+            } else if (this.state.operator === '/') {
+                answer = (parseFloat(this.state.firstNum, 10) / parseFloat(this.state.display, 10)).toString();
             }
             this.setState({display: answer, operator: e.target.value, firstNum: answer});
-
         }
     }
-
-    // formula  =  (parseFloat(this.state.firstNum, 10) + parseFloat(this.state.display, 10)).toString(),
 
     render() {
         return (<div id="calc">
