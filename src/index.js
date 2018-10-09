@@ -11,7 +11,8 @@ class App extends React.Component {
             display: '0',
             firstNum: '0',
             operatro: '',
-            number: '0'
+            number: '0',
+            lastButton: ''
         }
         this.initialize = this.initialize.bind(this);
         this.numbers = this.numbers.bind(this);
@@ -20,47 +21,61 @@ class App extends React.Component {
     }
 
     initialize() {
-        this.setState({display: '0', firstNum: '0', operator: '', number: '0'});
+        this.setState({display: '0', firstNum: '0', operator: '', number: '0', lastButton: ''});
     }
 
     decimal() {
-        if (!(this.state.display.includes('.'))) {
-            this.setState({display: this.state.display.concat('.'), number: this.state.number.concat('.')})
-        } else {
-            this.setState({display: this.state.display, number: this.state.number})
+        if (!(this.state.number.includes('.'))) {
+            this.setState({number: this.state.number.concat('.'), display: this.state.display.concat('.')})
         }
     }
 
     numbers(e) {
-        if (this.state.display.length > 15) {
+        if (this.state.display.length >= 15) {
             this.setState({display: "to long number"});
+        }
+
+        if (this.state.number === '0') {
+            this.setState({number: e.target.value, display: e.target.value, lastButton: e.target.value})
         } else {
-            if (this.state.number == '0') {
-                this.setState({display: e.target.value, number: e.target.value});
+            if (this.state.display.length >= 15) {
+                this.setState({display: 'Number is too long!'})
             } else {
                 this.setState({
+                    number: this.state.number.concat(e.target.value),
                     display: this.state.display.concat(e.target.value),
-                    number: this.state.number.concat(e.target.value)
+                    lastButton: e.target.value
                 });
             }
+
         }
     }
 
     math(e) {
+        let operators = ['+', '-', '*', '/', '='];
         if (this.state.firstNum === '0') {
-            this.setState({firstNum: this.state.display, operator: e.target.value})
+            this.setState({firstNum: this.state.display, operator: e.target.value, number: '0', lastButton: e.target.value})
         } else {
-            let answer;
-            if (this.state.operator === '+') {
-                answer = (parseFloat(this.state.firstNum, 10) + parseFloat(this.state.display, 10)).toString();
-            } else if (this.state.operator === '-') {
-                answer = (parseFloat(this.state.firstNum, 10) - parseFloat(this.state.display, 10)).toString();
-            } else if (this.state.operator === '*') {
-                answer = (parseFloat(this.state.firstNum, 10) * parseFloat(this.state.display, 10)).toString();
-            } else if (this.state.operator === '/') {
-                answer = (parseFloat(this.state.firstNum, 10) / parseFloat(this.state.display, 10)).toString();
+            if (operators.includes(this.state.lastButton)) {
+                this.setState({lastButton: e.target.value, operator: e.target.value});
+            } else {
+                let answer;
+                if (this.state.operator === '+') {
+                    answer = (parseFloat(this.state.firstNum, 10) + parseFloat(this.state.display, 10)).toString();
+                } else if (this.state.operator === '-') {
+                    answer = (parseFloat(this.state.firstNum, 10) - parseFloat(this.state.display, 10)).toString();
+                } else if (this.state.operator === '*') {
+                    answer = (parseFloat(this.state.firstNum, 10) * parseFloat(this.state.display, 10)).toString();
+                } else if (this.state.operator === '/') {
+                    answer = (parseFloat(this.state.firstNum, 10) / parseFloat(this.state.display, 10)).toString();
+                }
+                if (answer.length > 18) {
+                    this.setState({display: 'Number is to long!'})
+                } else {
+                    this.setState({display: answer, operator: e.target.value, firstNum: answer, number: '0', lastButton: e.target.value});
+                }
+
             }
-            this.setState({display: answer, operator: e.target.value, firstNum: answer});
         }
     }
 
